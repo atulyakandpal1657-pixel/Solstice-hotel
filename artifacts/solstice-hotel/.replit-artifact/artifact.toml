@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Solstice Hotel"
+description = "A premium boutique hotel website with room discovery, sample pricing, and a validated demo reservation-request flow."
+version = "1.0.0"
+id = "artifacts/solstice-hotel"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25799
+
+[services.development]
+run = "pnpm --filter @workspace/solstice-hotel run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/solstice-hotel", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/solstice-hotel/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25799"
+BASE_PATH = "/"
